@@ -108,6 +108,86 @@ it supports: classification , cluster
 
 *find shortest path , analysis networkkk
 
+# 4.sparksession:
 
+* SparkSession is the unified entry point for working with PySpark.
+* It allows us to create DataFrames, execute SQL queries, read files, and connect with the Spark cluster. Internally, SparkSession contains SparkContext.
+
+
+Configuring and Creating a SparkSession:
+
+<img width="812" height="207" alt="image" src="https://github.com/user-attachments/assets/6d3889bd-e21d-470c-8652-9f882336de79" />
+
+
+# 5.DataFrame API
+Overview of the DataFrame API in PySpark
+
+A DataFrame in PySpark is:
+
+✔ A distributed collection of data
+✔ Organized into rows and columns
+✔ Similar to a SQL table
+
+#  Comparison with Pandas DataFrames
+
+
+| Feature            | Pandas DataFrame             | PySpark DataFrame                                                  |
+| ------------------ | ---------------------------- | ------------------------------------------------------------------ |
+| **Scale**          | Works on single machine      | Distributed across cluster                                         |
+| **Data Size**      | Small/medium data            | Big data (GB–TB–PB)                                                |
+| **Speed**          | Slower for large data        | Faster due to parallel processing                                  |
+| **Lazy Execution** | No                           | Yes (runs only when action like `.show()` or `.count()` is called) |
+| **Optimization**   | No optimizer                 | Catalyst optimizer      |
+| **Syntax**         | Pythonic operations          | SQL-like + Pythonic   
+
+
+# 6. Transformations and Actions in PySpark
+
+
+* Transformations are operations that create a new RDD/DataFrame from an existing one.
+* They are lazy, meaning Spark does not execute them immediately.
+* Execution happens only when an action is called.
+
+
+# action:
+action is a operation trigger execution in spark
+
+| Action                   | Purpose                                   |
+| ------------------------ | ----------------------------------------- |
+| `collect()`              | Return all data to driver (use carefully) |
+| `count()`                | Count number of records                   |
+| `take(n)`                | Take first n records                      |
+| `reduce()`               | Reduce values to a single output          |
+| `show()` (for DataFrame) | Display data                              |
+| `write`                  | Save to file/table                        |
+
+
+
+# 7. spark RDDs (Resilient Distributed Datasets)
+
+7.1 Overview of RDDs in PySpark
+
+* RDD (Resilient Distributed Dataset)(map ,filter, reduce)
+
+* RDD is the lowest-level Spark abstraction.
+
+* It stores unstructured data as Java/Python objects.
+
+* It gives full control over data but has no optimization.
+
+* No schema, no optimization by Catalyst.
+
+Overview of RDDs in PySpark
+
+Differences between RDDs and DataFrames.
+ 
+
+| Feature      | RDD                       | DataFrame                   |
+| ------------ | ------------------------- | --------------------------- |
+| Structure    | Unstructured              | Structured (rows & columns) |
+| Speed        | Slower                    | Faster (Catalyst Optimizer) |
+| Syntax       | Python functions          | SQL-like operations         |
+| Use Case     | Low-level transformations | Big data analytics          |
+| Optimization | No                        | Yes                         |
 
 
