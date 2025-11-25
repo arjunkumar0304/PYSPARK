@@ -191,3 +191,159 @@ Differences between RDDs and DataFrames.
 | Optimization | No                        | Yes                         |
 
 
+# 8.PySpark Data Structures
+
+* RDD (Resilient Distributed Dataset)
+
+* DataFrame
+
+* Dataset
+
+
+# RDD (Resilient Distributed Dataset)
+* RDD is the fundamental data structure in Spark.
+* It represents a distributed collection of objects divided across multiple machines.
+
+# Characteristics
+
+*Low-level API
+
+* No predefined schema
+
+* Immutable (cannot be changed once created)
+
+* Provides transformations and actions
+
+* Suitable for unstructured data
+
+       rdd = spark.sparkContext.parallelize([1, 2, 3, 4])
+
+
+# Dataframe
+
+A DataFrame is a distributed table-like structure with rows and columns, similar to a SQL table or a Pandas DataFrame.
+
+# Characteristics
+
+High-level API
+
+Has schema (column names + data types)
+
+Uses Catalyst Optimizer (high performance)
+
+Supports SQL operations
+
+Recommended for most PySpark workloads
+
+```
+  data = [(1, "Arjun"), (2, "Kumar")]
+df = spark.createDataFrame(data, ["id", "name"])
+df.show()
+```
+
+
+# Dataset
+
+A Dataset is a strongly-typed structured collection of data.
+
+# Key Points
+
+Provides compile-time type safety
+
+Combines benefits of RDD and DataFrame
+
+Fully supported only in Scala/Java
+
+In PySpark, DataFrame = Dataset<Row>
+
+* PySpark Note : In PySpark, Datasets are NOT used because Python does not support compile-time types.
+
+# Comparison Between RDD, DataFrame, Dataset
+
+
+| Feature        | RDD          | DataFrame            | Dataset     |
+| -------------- | ------------ | -------------------- | ----------- |
+| Data Structure | Objects      | Table (rows/columns) | Typed table |
+| Ease of Use    | Hard         | Easy                 | Medium      |
+| Schema         | No           | Yes                  | Yes         |
+| Performance    | Slow         | Fast                 | Fast        |
+| Optimization   | No           | Yes (Catalyst)       | Yes         |
+| API Support    | Python/Scala | Python/Scala         | Scala/Java  |
+| Type Safety    | No           | No                   | Yes         |
+
+
+# 9. SparkContext
+
+*  The Role of SparkContext in PySpark
+
+SparkContext = the connection between your PySpark program and the Spark Cluster.
+
+Think of it like:
+
+SparkSession → High-level API for SQL, DataFrames
+
+SparkContext → Low-level API for RDD operations
+
+
+```
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder     .appName("MyApp")     .master("local[*]")     .getOrCreate()
+
+sc = spark.sparkContext
+
+```
+
+Configuration Options:
+
+.appName("MyApp") → Identifies your job.
+.master("local[*]") → Runs locally using all CPU cores.
+Additional configs like memory, executor cores, etc.
+
+
+# 10.PySpark DataFrames
+
+# 10.1 Introduction to PySpark DataFrames
+
+A DataFrame in PySpark is:
+
+✔ A table-like structure (rows & columns)
+✔ Similar to Pandas DataFrame, but works on big data
+✔ Distributed across multiple machines in a cluster
+✔ Highly optimized using Catalyst Optimizer
+
+
+<img width="1202" height="242" alt="image" src="https://github.com/user-attachments/assets/8c556c3b-5d68-4475-92bf-4ade05be9e9e" />
+
+
+# 10.2 Operations on DataFrames
+
+
+<img width="1178" height="985" alt="image" src="https://github.com/user-attachments/assets/214683dd-7a58-4275-8cd7-d4bb208af9f5" />
+
+
+| Operation      | Method                      |
+| -------------- | --------------------------- |
+| Select columns | `select()`                  |
+| Filter rows    | `filter()`, `where()`       |
+| Sort rows      | `orderBy()`                 |
+| Group data     | `groupBy()`                 |
+| Aggregate      | `count, sum, avg, max, min` |
+| Add new column | `withColumn()`              |
+
+
+# 11.PySpark SQL
+
+PySpark allows you to run SQL queries on DataFrames just like you do in a database
+
+Run SQL queries
+
+Create temporary views
+
+Join DataFrames using SQL
+
+Use functions (SUM, AVG, COUNT, etc.)
+
+
+
+<img width="862" height="493" alt="image" src="https://github.com/user-attachments/assets/5994526e-fd1c-43b3-84c6-e5719db92b86" />
