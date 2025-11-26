@@ -347,3 +347,84 @@ Use functions (SUM, AVG, COUNT, etc.)
 
 
 <img width="862" height="493" alt="image" src="https://github.com/user-attachments/assets/5994526e-fd1c-43b3-84c6-e5719db92b86" />
+
+
+# Caching & Persisting
+
+Spark recomputes transformations every time an action (like count() or show()) is triggered.
+
+To speed up repeated operations:
+
+Use cache() to store results in memory.
+Use persist() for more storage control (memory, disk, etc.).
+
+
+```
+df.cache()
+```
+
+Without cache → Spark recomputes every time.
+With cache → Spark stores results in memory → no recomputation.
+
+# persist|
+
+persist() for more storage control (memory, disk)
+persist() allows you to specify the storage level (memory, disk, serialization).
+
+
+| Feature       | cache()     | persist()                         |
+| ------------- | ----------- | --------------------------------- |
+| Storage Level | Only MEMORY | You can choose MEMORY, DISK, both |
+| Usage         | Simple      | Advanced control                  |
+
+
+
+# pyspark dataframe function
+
+
+
+<img width="951" height="1070" alt="Screenshot 2025-11-26 172347" src="https://github.com/user-attachments/assets/6861dc8c-fbcc-42d7-8aee-1b6d60c77eaf" />
+
+
+
+| **Function**           | **Purpose / What It Does**                        |
+| ---------------------- | ------------------------------------------------- |
+| **show()**             | Displays DataFrame rows in table format           |
+| **collect()**          | Returns *all* rows to the driver as a Python list |
+| **take(n)**            | Returns *first n rows* (safer than collect)       |
+| **printSchema()**      | Prints schema: column names + data types          |
+| **count()**            | Returns number of rows                            |
+| **select()**           | Selects specific columns                          |
+| **filter() / where()** | Filters rows based on a condition                 |
+| **like()**             | Pattern matching (like SQL LIKE)                  |
+| **sort() / orderBy()** | Sorts DataFrame rows                              |
+| **describe()**         | Shows summary statistics (count, mean, min, max)  |
+| **columns**            | Returns list of column names                      |
+
+
+
+
+# pyspark string function
+
+<img width="915" height="919" alt="Screenshot 2025-11-26 182849" src="https://github.com/user-attachments/assets/40004765-10e0-4765-b168-32e876a813d7" />
+
+
+
+| **Function**          | **Purpose**                        | **Example Code**                         | **Output Explanation**                    |
+| --------------------- | ---------------------------------- | ---------------------------------------- | ----------------------------------------- |
+| **upper()**           | Convert to UPPERCASE               | `upper(col("name"))`                     | arjun → ARJUN                             |
+| **lower()**           | Convert to lowercase               | `lower(col("name"))`                     | ARJUN → arjun                             |
+| **trim()**            | Remove left + right spaces         | `trim(col("name"))`                      | `"  arjun  "` → `"arjun"`                 |
+| **ltrim()**           | Remove LEFT spaces                 | `ltrim(col("name"))`                     | `"  arjun"` → `"arjun"`                   |
+| **rtrim()**           | Remove RIGHT spaces                | `rtrim(col("name"))`                     | `"arjun  "` → `"arjun"`                   |
+| **length()**          | Count characters                   | `length(col("name"))`                    | "arjun" → 5                               |
+| **substring()**       | Extract part of string             | `substring(col("name"),1,3)`             | "arjun" → "arj"                           |
+| **substring_index()** | Extract before/after delimiter     | `substring_index(col("email"),"@",1)`    | "[a@gmail.com](mailto:a@gmail.com)" → "a" |
+| **split()**           | Split into array                   | `split(col("email"),"@")`                | `["a","gmail.com"]`                       |
+| **repeat()**          | Repeat string                      | `repeat(col("name"),2)`                  | "arjun" → "arjunarjun"                    |
+| **lpad()**            | Pad LEFT side                      | `lpad(col("name"),10,"*")`               | "*****arjun"                              |
+| **rpad()**            | Pad RIGHT side                     | `rpad(col("name"),10,"*")`               | "arjun*****"                              |
+| **regex_replace()**   | Replace using regex                | `regex_replace(col("name"),"a","A")`     | "arjun" → "Arjun"                                                   |
+| **instr()**           | Find index of substring            | `instr(col("name"),"a")`                 | "arjun" → 1                               |
+| **initcap()**         | Capitalize first char of each word | `initcap(col("name"))`                   | "mahendra" → "Mahendra"                   |
+
