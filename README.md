@@ -349,7 +349,7 @@ Use functions (SUM, AVG, COUNT, etc.)
 <img width="862" height="493" alt="image" src="https://github.com/user-attachments/assets/5994526e-fd1c-43b3-84c6-e5719db92b86" />
 
 
-# Caching & Persisting
+# 12.Caching & Persisting
 
 Spark recomputes transformations every time an action (like count() or show()) is triggered.
 
@@ -379,7 +379,7 @@ persist() allows you to specify the storage level (memory, disk, serialization).
 
 
 
-# pyspark dataframe function
+# 13. pyspark dataframe function
 
 
 
@@ -404,7 +404,7 @@ persist() allows you to specify the storage level (memory, disk, serialization).
 
 
 
-# pyspark string function
+# 14.pyspark string function
 
 <img width="915" height="919" alt="Screenshot 2025-11-26 182849" src="https://github.com/user-attachments/assets/40004765-10e0-4765-b168-32e876a813d7" />
 
@@ -427,4 +427,69 @@ persist() allows you to specify the storage level (memory, disk, serialization).
 | **regex_replace()**   | Replace using regex                | `regex_replace(col("name"),"a","A")`     | "arjun" → "Arjun"                                                   |
 | **instr()**           | Find index of substring            | `instr(col("name"),"a")`                 | "arjun" → 1                               |
 | **initcap()**         | Capitalize first char of each word | `initcap(col("name"))`                   | "mahendra" → "Mahendra"                   |
+
+# 15. Numeric Function
+
+
+
+<img width="620" height="647" alt="Screenshot 2025-11-27 182008" src="https://github.com/user-attachments/assets/1304b904-e8db-49fe-9a01-1f74851a480d" />
+
+
+
+| Function    | Purpose         | PySpark Example          |
+| ----------- | --------------- | ------------------------ |
+| **SUM()**   | Total of values | `sum("salary")`          |
+| **AVG()**   | Average value   | `avg("salary")`          |
+| **MIN()**   | Smallest value  | `min("salary")`          |
+| **MAX()**   | Largest value   | `max("salary")`          |
+| **ROUND()** | Round decimals  | `round(col("value"), 2)` |
+| **ABS()**   | Absolute value  | `abs("value")`           |
+
+
+# 16. Date and time function
+
+
+
+
+
+<img width="1258" height="895" alt="Screenshot 2025-11-27 182131" src="https://github.com/user-attachments/assets/ea4d4ed6-cc9f-42fa-a359-4222e96d7c64" />
+
+
+
+| **Function**                       | **Meaning / Purpose**                | **Example Code**                         | **Output Example**    |
+| ---------------------------------- | ------------------------------------ | ---------------------------------------- | --------------------- |
+| **CURRENT_DATE()**                 | Returns today’s system date          | `current_date()`                         | `2025-11-27`          |
+| **CURRENT_TIMESTAMP()**            | Returns current date with time       | `current_timestamp()`                    | `2025-11-27 16:55:10` |
+| **DATE_ADD(col, days)**            | Adds N days to a date                | `date_add(col("date"), 10)`              | `2024-11-30`          |
+| **DATEDIFF(date1, date2)**         | Difference in days between two dates | `datediff(current_date(), col("date"))`  | `372`                 |
+| **YEAR(col)**                      | Extracts year from date              | `year(col("date"))`                      | `2024`                |
+| **MONTH(col)**                     | Extracts month number (1–12)         | `month(col("date"))`                     | `11`                  |
+| **DAY(col)** / **DAYOFMONTH(col)** | Extracts day of month                | `dayofmonth(col("date"))`                | `20`                  |
+| **TO_DATE(col)**                   | Converts string → date               | `to_date(col("date"))`                   | `2024-11-20`          |
+| **DATE_FORMAT(col, format)**       | Converts date into custom format     | `date_format(col("date"), "dd/MM/yyyy")` | `20/11/2024`          |
+
+
+# 17. Aggregate function
+
+<img width="594" height="934" alt="Screenshot 2025-11-27 182331" src="https://github.com/user-attachments/assets/d7f57009-8de9-416b-b989-7f2dc88e3ff8" />
+
+
+
+
+
+
+| Function            | Description                                    | Example                 | Output Meaning            |
+| ------------------- | ---------------------------------------------- | ----------------------- | ------------------------- |
+| **mean()**          | Calculates average value                       | `mean("salary")`        | Average salary            |
+| **avg()**           | Same as mean()                                 | `avg("salary")`         | Average salary            |
+| **sum()**           | Total of all values                            | `sum("salary")`         | Total salary amount       |
+| **min()**           | Minimum value                                  | `min("salary")`         | Lowest salary             |
+| **max()**           | Maximum value                                  | `max("salary")`         | Highest salary            |
+| **count()**         | Counts number of rows                          | `count("id")`           | No. of employees          |
+| **countDistinct()** | Counts unique values                           | `countDistinct("dept")` | No. of unique depts       |
+| **first()**         | First value in column                          | `first("salary")`       | First salary in DataFrame |
+| **last()**          | Last value in column                           | `last("salary")`        | Last salary in DataFrame  |
+| **collect_list()**  | Collects values into list (duplicates allowed) | `collect_list("name")`  | All names in list         |
+| **collect_set()**   | Collects unique values (removes duplicates)    | `collect_set("name")`   | Unique names only         |
+
 
