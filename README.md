@@ -476,8 +476,6 @@ persist() allows you to specify the storage level (memory, disk, serialization).
 
 
 
-
-
 | Function            | Description                                    | Example                 | Output Meaning            |
 | ------------------- | ---------------------------------------------- | ----------------------- | ------------------------- |
 | **mean()**          | Calculates average value                       | `mean("salary")`        | Average salary            |
@@ -493,3 +491,48 @@ persist() allows you to specify the storage level (memory, disk, serialization).
 | **collect_set()**   | Collects unique values (removes duplicates)    | `collect_set("name")`   | Unique names only         |
 
 
+
+# 18. Joins
+
+
+<img width="982" height="811" alt="Screenshot 2025-11-28 142836" src="https://github.com/user-attachments/assets/f772fcbd-7ef8-461a-b8ea-1faccb3abb91" />
+
+
+| Join Type           | Returns                                           | Example Use                           |
+| ------------------- | ------------------------------------------------- | ------------------------------------- |
+| **Inner Join**      | Only matching rows from both tables               | Get employees with valid departments  |
+| **Cross Join**      | Cartesian product                                 | Testing, combinations                 |
+| **Full Outer Join** | All rows, matched + unmatched                     | Compare two datasets                  |
+| **Left Join**       | All employees + matched departments               | Employee master report                |
+| **Right Join**      | All departments + matched employees               | Find empty departments                |
+| **Left Semi Join**  | Employees with matching dept (only employee cols) | Filter employees present in dept list |
+| **Left Anti Join**  | Employees without department match                | Find invalid / orphan records         |
+
+
+
+
+
+# 19. Mathematical function
+
+<img width="647" height="867" alt="Screenshot 2025-11-28 153514" src="https://github.com/user-attachments/assets/bcafc775-7454-412b-8c7e-19bd5483c29e" />
+
+
+
+
+
+| Function       | Meaning        | Example    | Output |
+| -------------- | -------------- | ---------- | ------ |
+| **ABS(x)**     | Absolute value | ABS(-10)   | 10     |
+| **CEIL(x)**    | Round up       | CEIL(3.4)  | 4      |
+| **FLOOR(x)**   | Round down     | FLOOR(3.4) | 3      |
+| **EXP(x)**     | e^x            | EXP(1)     | 2.718… |
+| **LOG(x)**     | Natural log    | LOG(10)    | 2.302… |
+| **POWER(x,y)** | xⁿ             | POWER(5,2) | 25     |
+| **SQRT(x)**    | Square root    | SQRT(25)   | 5      |
+
+
+# 20. cast
+CAST() is used to convert the data type of a column into another data type
+
+df2 = df.withColumn("age_int", col("age_str").cast("int"))
+df2.show()
