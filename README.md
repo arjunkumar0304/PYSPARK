@@ -536,3 +536,141 @@ CAST() is used to convert the data type of a column into another data type
 
 df2 = df.withColumn("age_int", col("age_str").cast("int"))
 df2.show()
+
+
+
+# 21. windows function 
+
+
+Use this for all workouts:
+
+```python
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import *
+from pyspark.sql.window import Window
+
+spark = SparkSession.builder.appName("window").getOrCreate()
+
+data = [
+    ("IT", "Arjun", 45000),
+    ("IT", "Mathes", 65000),
+    ("IT", "Madhan", 65000),
+    ("CSE", "Mahendra", 36000),
+    ("CSE", "Boopi", 32000),
+    ("EEE", "Sakthi", 87000),
+    ("EEE", "Mukesh", 54000),
+    ("EEE", "Pranesh", 58000)
+]
+
+cols = ["dept", "name", "salary"]
+
+df = spark.createDataFrame(data, cols)
+df.show()
+```
+
+---
+`````
+win = Window.partitionBy("dept").orderBy(col("salary").desc())
+``````
+ Window Function Workouts
+
+## 4.1 ROW_NUMBER()
+
+```python
+df.withColumn("row_num", row_number().over(win)).show()
+```
+
+---
+
+## 4.2 RANK()
+
+```python
+df.withColumn("rank", rank().over(win)).show()
+```
+
+---
+
+## 4.3 DENSE_RANK()
+
+```python
+df.withColumn("dense_rank", dense_rank().over(win)).show()
+```
+
+---
+
+## 4.4 LEAD() → Next Salary
+
+```python
+df.withColumn("next_salary", lead("salary", 1).over(win)).show()
+```
+
+---
+
+## 4.5 LAG() → Previous Salary
+
+```python
+df.withColumn("prev_salary", lag("salary", 1).over(win)).show()
+```
+
+---
+
+
+
+<img width="974" height="967" alt="Screenshot 2025-12-01 180932" src="https://github.com/user-attachments/assets/cd15a73a-e3e7-47f9-ab5a-ec47b1dc02fc" />
+
+
+
+| Function     | Purpose              |
+| ------------ | -------------------- |
+| ROW_NUMBER() | Unique row number    |
+| RANK()       | Ranking with gaps    |
+| DENSE_RANK() | Ranking without gaps |
+| LEAD()       | Next row value       |
+| LAG()        | Previous row value   |
+| SUM() OVER   | Running total        |
+| AVG() OVER   | Running average      |
+| MAX() OVER   | Highest per dept     |
+| MIN() OVER   | Lowest per dept     
+
+
+
+
+# 22. Array functions
+
+<img width="1159" height="923" alt="Screenshot 2025-12-01 180953" src="https://github.com/user-attachments/assets/a8f39760-a1ca-4776-b4d5-c6dee33d1ad6" />
+
+
+| Function             | Description                      | Example                         |
+| -------------------- | -------------------------------- | ------------------------------- |
+| **array()**          | Create array from values/columns | array(lit("a"), lit("b"))       |
+| **array_contains()** | Check if array has a value       | array_contains(fruits,"banana") |
+| **array_length()**   | Count elements                   | array_length(fruits)            |
+| **array_position()** | 1-based index of value           | array_position(fruits,"banana") |
+| **array_remove()**   | Remove all occurrences           | array_remove(fruits,"banana")   |
+
+
+
+
+# 23. Explode function 
+
+# . explode()
+
+Converts each element of an array or map into separate rows.
+
+NULL arrays are removed.
+
+# explode_outer()
+
+Same as explode, but retains NULL values.
+
+Returns a single NULL row when the array is NULL.
+
+# . posexplode_outer()
+
+Returns both position (index) and value.
+
+Keeps NULL arrays like explode_outer.
+
+
+
+<img width="937" height="891" alt="image" src="https://github.com/user-attachments/assets/7f00f0de-281f-420a-ba71-8cf8cef96451" />
