@@ -674,3 +674,114 @@ Keeps NULL arrays like explode_outer.
 
 
 <img width="937" height="891" alt="image" src="https://github.com/user-attachments/assets/7f00f0de-281f-420a-ba71-8cf8cef96451" />
+
+
+# 24. UDF
+
+* "In PySpark, a UDF (User Defined Function) is a custom function written in Python when Spark’s built-in functions are not enough.
+  
+* We convert our Python function into a UDF so Spark can use it inside DataFrame operations."
+`````
+from pyspark.sql.functions import udf
+from pyspark.sql.types import StringType
+
+def upper_case(name):
+    return name.upper()
+
+upper_udf = udf(upper_case, StringType())
+
+data = [(1, "alice"), (2, "bob")]
+df = spark.createDataFrame(data, ["id", "name"])
+
+df_with_udf = df.withColumn("name_upper", upper_udf("name"))
+df_with_udf.show()
+Output:
+
+output
++---+-----+----------+
+| id| name|name_upper|
++---+-----+----------+
+|  1|alice|     ALICE|
+|  2|  bob|       BOB|
++---+-----+----------+
+
+``````
+
+# 25. Different File Formats with Schema:
+
+#  Schema Definition (What is Schema?)
+
+Schema = Structure of a DataFrame
+
+A schema defines:
+
+Column Names
+
+Column Data Types (String, Integer, Double, Array, Struct, etc.)
+
+Whether column is nullable or not
+
+# Why Schema is important?
+
+Controls data quality
+
+Avoids wrong data types
+
+Makes reading files faster (no need for Spark to infer types)
+
+
+from pyspark.sql.types import StructType, StructField, IntegerType, StringType
+````
+schema = StructType([
+    StructField("id", IntegerType(), True),
+    StructField("name", StringType(), True),
+    StructField("salary", IntegerType(), True)
+])
+
+``````
+
+# StructType
+StructType = Collection of StructField objects
+
+It acts like a container to hold the entire schema structure.
+
+In simple words:
+
+👉 StructType = Table structure
+👉 StructField = Column definition
+
+# StructField
+StructField defines individual columns, their data type, and nullability.
+
+# DataType
+DataType specifies the type of each column (StringType, IntegerType, etc.).
+
+
+# 26 . Reading Different File Formats with Schema
+
+
+# Reading CSV with Schema
+```
+
+df = spark.read.csv("data.csv", header=True, inferSchema=True)
+df.show()
+`````
+<img width="937" height="970" alt="image" src="https://github.com/user-attachments/assets/9ec146b4-9925-4d8f-b310-9723983dcfbb" />
+
+# Reading Parquet
+```
+df = spark.read.parquet("path/file.parquet")
+df.show()
+```
+<img width="1259" height="791" alt="Screenshot 2025-12-02 184234" src="https://github.com/user-attachments/assets/32ab3614-f8b9-40bb-b5d9-06af4b5a90f6" />
+
+
+# Reading JSON with Schema
+````
+df = spark.read.json("data.json")
+df.show(truncate=False)
+````
+
+
+<img width="1014" height="751" alt="Screenshot 2025-12-02 184301" src="https://github.com/user-attachments/assets/5da8cd47-f65b-4276-b767-db2e85207eba" />
+
