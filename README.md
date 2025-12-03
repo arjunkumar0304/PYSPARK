@@ -785,72 +785,102 @@ df.show(truncate=False)
 
 <img width="1014" height="751" alt="Screenshot 2025-12-02 184301" src="https://github.com/user-attachments/assets/5da8cd47-f65b-4276-b767-db2e85207eba" />
 
-2.1 SCD Type 1 — Overwrite (No History)
 
-Rule:
+## 27. Different File Formats with Schema
 
-Old value is simply replaced by the new value.
+###  Write DataFrame to CSV with Schema
 
-No history maintained.
+* Define schema using `StructType` and `StructField`.
+* Create DataFrame using the schema.
+* Write DataFrame to CSV using `.write.csv()`.
+```` 
+df.write.option("header", "true").mode("overwrite").csv("path/output.csv")
+`````
 
-Example
+###  Write DataFrame to Parquet
 
-Old Value: Chennai  
-New Value: Mumbai  
-Final Stored: Mumbai
+* Parquet automatically preserves schema.
+* Use `.write.parquet()`.
 
-2.2 SCD Type 2 — Full History
 
-Rule:
+```
+df.write.mode("overwrite").parquet("path/output.parquet")
+```
 
-Insert a new row when data changes.
+###  Write DataFrame to JSON with Schema
 
-Maintain:
+* Define schema and apply during read/write.
+* Write JSON using `.write.json()`.
 
-start_date
+---
 
-end_date
+```
+df.write.mode("overwrite").json("path/output.json")
+````
 
-is_current
+## 28. Slowly Changing Dimensions (SCD)
 
-Example Table
+###  SCD Type 1
 
-id	city	start_date	end_date	is_current
-1	Chennai	2021	2023	0
-1	Mumbai	2023	null	1
-
-Important:
-✔ Type 2 requires date columns.
-
-2.3 SCD Type 3 — Store Current + Previous Value Only
-
-Rule:
-
-Store only the current value
-
-Plus one previous value
-
-No full history like Type 2
-
-Example
-
-id	current_city	previous_city
-1	Mumbai	Chennai
-3. Write Methods
-3.1 Overwrite
-
-Deletes old data and writes new data.
-
-df.write.mode("overwrite").csv("path")
-
-3.2 Overwrite Partition
-
-Overwrites only a specific partition instead of whole dataset.
-
-df.write.mode("overwrite") \
-  .option("replaceWhere", "city='Chennai'") \
-  .parquet("path")
+* Overwrite old data with new data.
+* No history maintained.
+<img width="1056" height="660" alt="Screenshot 2025-12-03 173557" src="https://github.com/user-attachments/assets/f633b5ba-a097-4b4f-8844-626a2a845006" />
 
 
 
+###  SCD Type 2
 
+* Maintains full history of changes.
+* Includes columns such as `start_date`, `end_date`, `is_current`.
+
+<img width="567" height="827" alt="Screenshot 2025-12-03 182253" src="https://github.com/user-attachments/assets/9080a667-19be-429f-a79c-ef43184f02f6" />
+
+
+
+###  SCD Type 3
+
+* Maintains partial history.
+* Only stores previous and current values.
+
+---
+
+## 29. Write Methods in PySpark
+
+### 3.1 Overwrite
+
+* Existing data is fully replaced.
+* `.mode('overwrite')`.
+
+````
+df.write.mode("overwrite").parquet("/path/output")
+`````
+
+### Overwrite Partition
+
+* Only specific partition data gets replaced.
+* Used with `.option('partitionOverwriteMode','dynamic')`.
+````
+  df.write.mode("overwrite").option("replaceWhere", "year = 2023").saveAsTable("sales")
+````
+###  Upsert (Merge)
+
+* Insert + Update using Delta Lake.
+* Requires `.merge()`.
+
+`````
+MERGE INTO target t
+USING source s
+ON t.id = s.id
+WHEN MATCHED THEN UPDATE SET *
+WHEN NOT MATCHED THEN INSERT *;
+`````
+
+
+###  Append
+
+* Adds new data without deleting existing.
+* `.mode('append')`.
+```
+df.write.mode("append").json("/path/output")
+---
+````
