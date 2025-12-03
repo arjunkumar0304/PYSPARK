@@ -785,3 +785,72 @@ df.show(truncate=False)
 
 <img width="1014" height="751" alt="Screenshot 2025-12-02 184301" src="https://github.com/user-attachments/assets/5da8cd47-f65b-4276-b767-db2e85207eba" />
 
+2.1 SCD Type 1 — Overwrite (No History)
+
+Rule:
+
+Old value is simply replaced by the new value.
+
+No history maintained.
+
+Example
+
+Old Value: Chennai  
+New Value: Mumbai  
+Final Stored: Mumbai
+
+2.2 SCD Type 2 — Full History
+
+Rule:
+
+Insert a new row when data changes.
+
+Maintain:
+
+start_date
+
+end_date
+
+is_current
+
+Example Table
+
+id	city	start_date	end_date	is_current
+1	Chennai	2021	2023	0
+1	Mumbai	2023	null	1
+
+Important:
+✔ Type 2 requires date columns.
+
+2.3 SCD Type 3 — Store Current + Previous Value Only
+
+Rule:
+
+Store only the current value
+
+Plus one previous value
+
+No full history like Type 2
+
+Example
+
+id	current_city	previous_city
+1	Mumbai	Chennai
+3. Write Methods
+3.1 Overwrite
+
+Deletes old data and writes new data.
+
+df.write.mode("overwrite").csv("path")
+
+3.2 Overwrite Partition
+
+Overwrites only a specific partition instead of whole dataset.
+
+df.write.mode("overwrite") \
+  .option("replaceWhere", "city='Chennai'") \
+  .parquet("path")
+
+
+
+
