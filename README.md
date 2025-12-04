@@ -884,3 +884,127 @@ WHEN NOT MATCHED THEN INSERT *;
 df.write.mode("append").json("/path/output")
 ---
 ````
+
+
+
+
+
+
+
+
+## 30. Tables
+
+###  Managed Table
+
+* A managed table is fully controlled by Spark.
+* Spark stores both **metadata + data**.
+* If the table is dropped, **data is also deleted**.
+* Storage location: Spark default warehouse (`/user/hive/warehouse`).
+
+**PySpark Example:**
+
+```python
+spark.sql("CREATE TABLE managed_table (id INT, name STRING) USING PARQUET")
+```
+
+###  External Table
+
+* Only the **metadata** is controlled by Spark.
+* Data stays in an **external path** (S3, ADLS, local path).
+* If table is dropped, **data is NOT deleted**.
+
+**PySpark Example:**
+
+```python
+spark.sql("""
+CREATE TABLE external_table (id INT, name STRING)
+USING PARQUET
+LOCATION '/mnt/data/external_path/'
+""")
+```
+
+---
+
+## 31. Types of Loads
+
+###  Full Load
+
+* Load the **entire dataset** every time.
+* Common in systems where data volume is small.
+* Deletes previous data and reloads fresh data.
+
+###  Incremental Load
+
+* Loads **only newly added or changed records**.
+* Uses timestamps, IDs, or audit columns.
+* Faster and cost-effective.
+
+###  Snapshot Loads
+
+Snapshots capture the **state of data at a point in time**.
+
+####  Full Snapshot
+
+* Entire dataset snapshot taken daily/weekly.
+
+#### Incremental Snapshot
+
+* Captures only **changes** since the last snapshot.
+
+####  Rolling Snapshot
+
+* Keeps snapshots within a **rolling window** (e.g., last 30 days).
+
+###  Change Data Capture (CDC)
+
+* Tracks **real-time row-level changes**: Insert, Update, Delete.
+* Used in streaming and data replication.
+* Tools: Debezium, Kafka CDC, Delta Lake **MERGE**.
+
+---
+
+## 32. Python Libraries
+
+###  Cookiecutter
+
+* A tool to create project templates.
+* Ensures consistent folder structure.
+
+**Usage:**
+
+
+
+###  Pydantic
+
+* Used for **data validation** and **settings management**.
+* Ensures correct data types.
+* Widely used in FastAPI.
+
+`
+
+### Tox & Black
+
+#### Tox
+
+* Used for automation and testing across Python versions.
+* Helps standardize test environment.
+
+`
+
+#### Black
+
+* A Python code formatter.
+* Ensures clean and consistent coding style.
+
+
+---
+
+# pytest 
+<img width="372" height="187" alt="Screenshot 2025-12-04 185024" src="https://github.com/user-attachments/assets/775f5cfe-e7b6-4f89-ab5e-aea831971566" />
+
+<img width="368" height="192" alt="Screenshot 2025-12-04 185033" src="https://github.com/user-attachments/assets/804124f1-cc38-4f9d-b58e-c4b7d0579e18" />
+
+
+# output
+
+<img width="919" height="271" alt="Screenshot 2025-12-04 185056" src="https://github.com/user-attachments/assets/d714d28e-d524-41dd-b8ce-f5abc113efdf" />
